@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>Dealership Review</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -15,7 +16,17 @@
 
     <body>
     <!--Add a nav bar here -->
-
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Best Cars dealership</a>
+            </div>
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="{% url 'djangoapp:about' %}">About us</a></li>
+                <li><a href="{% url 'djangoapp:contact' %}">Contact us</a></li>
+            </ul>
+        </div>
+    </nav>
     <!--Add a dealer table here -->
 
     </body>
