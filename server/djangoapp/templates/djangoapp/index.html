@@ -21,9 +21,27 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Best Cars dealership</a>
             </div>
-            <ul class="nav navbar-nav navbar-left">
-                <li><a href="{% url 'djangoapp:about' %}">About us</a></li>
-                <li><a href="{% url 'djangoapp:contact' %}">Contact us</a></li>
+            <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'djangoapp:about' %}">About us</a></li>
+                    <li><a href="{% url 'djangoapp:contact' %}">Contact us</a></li>
+                {% if user.is_authenticated %}
+                <li>
+                    <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                    <a class="btn btn-link" href="#">Logout</a>
+                </li>
+                {% else %}
+                <li>
+                    <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post"></form>
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Username" name="username" >
+                            <input type="password" class="form-control" placeholder="Password" name="psw" >
+                            <button class="btn btn-primary" type="submit">Login</button>
+                            <a class="btn btn-link" href="{% url 'djangoapp:login' %}">Sign Up</a>
+                        </div>
+                    </form>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
