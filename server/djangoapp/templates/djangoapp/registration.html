@@ -7,5 +7,44 @@
 </head>
     <body>
     <!--Add a registration form here -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Best Cars dealership</a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'djangoapp:about' %}">About us</a></li>
+                        <li><a href="{% url 'djangoapp:contact' %}">Contact us</a></li>
+                    {% if user.is_authenticated %}
+                    <li>
+                        <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                        <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li>
+                    <form class="form-inline" action="{% url 'djangoapp:registration' %}"  method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <label for="username"><b>User Name</b></label>
+                            <input type="text" class="form-control" placeholder="Enter User Name: " name="username" required>
+
+                            <label for="firstname"><b>First Name</b></label>
+                            <input type="text" class="form-control" placeholder="Enter First Name: " name="firstname" required>
+
+                            <label for="lastname"><b>Last Name</b></label>
+                            <input type="text" class="form-control" placeholder="Enter Last Name: " name="lastname" required>
+
+                            <label for="psw"><b>Password</b></label>
+                            <input type="password" class="form-control" placeholder="Enter Password: " name="psw" required>
+
+                            <button class="button" type="submit">Sign up</button>
+                            <a class="btn btn-link" href="{% url 'djangoapp:index' %}">Sign Up</a>
+                        </div>
+                    </form>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
     </body>
 </html>
