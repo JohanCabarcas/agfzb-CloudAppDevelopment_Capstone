@@ -60,6 +60,24 @@ class CarModel(models.Model):
                 "Year: " + str(self.year)[:10]
 
 # <HINT> Create a plain Python class `CarDealer` to hold dealer data
+class CarDealer:
+    def __init__(self, address, city, full_name, id, state, st):
+        # Dealer address
+        self.address = address
+        # Dealer city
+        self.city = city
+        # Dealer Full Name
+        self.full_name = full_name
+        # Dealer id
+        self.id = id
+        # Dealer state
+        self.state = state
+        #Dealer state short
+        self.st = st
+
+    def __str__(self):
+        return "Dealer name: " + self.full_name
+
 
 
 # <HINT> Create a plain Python class `DealerReview` to hold review data
