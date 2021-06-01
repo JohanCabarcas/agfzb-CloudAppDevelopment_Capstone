@@ -92,7 +92,7 @@ class DealerReview :
         # Dealer id
         self.car_model = car_model
         # Dealer state
-        self.purchase_date = purchase_date
+        self.purchase = purchase
         #Dealer state short
         self.sentiment = sentiment
 

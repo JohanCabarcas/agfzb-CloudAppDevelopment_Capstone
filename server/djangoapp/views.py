@@ -10,7 +10,7 @@ from datetime import datetime
 import logging
 import json
 
-from .restapis import get_dealers_from_cf
+from .restapis import get_dealers_from_cf, get_dealer_by_id_from_cf
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -110,18 +110,20 @@ def get_dealerships(request):
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
 def get_dealer_details(request, dealer_id):
+    print("Enter get_dealer_details")
 
     if request.method == "GET":
         #url = "https://32dc2b02.eu-gb.apigw.appdomain.cloud/api/reviews/{dealership}"
         url = "https://32dc2b02.eu-gb.apigw.appdomain.cloud/api/reviews/reviews?dealership="
         #append id to api url
-        url = url +  dealer_id
+        url = url +  str(dealer_id)
         print("Query review with URL {}".format(url))
         # Get reviews by dealers id from the URL
         reviews = get_dealer_by_id_from_cf(url, dealer_id)
         # Concat all dealer's short name
         review_text = ' '.join([rev.review for rev in reviews])
         # Return a list of dealer short name
+        print("exit get_dealer_details")
         return HttpResponse(review_text)
 # Create a `add_review` view to submit a review
  #def add_review(request, dealer_id):
