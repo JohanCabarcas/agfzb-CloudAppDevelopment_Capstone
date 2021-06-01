@@ -8,7 +8,9 @@ from requests.auth import HTTPBasicAuth
 #                                     auth=HTTPBasicAuth('apikey', api_key))
 
 def get_request(url, **kwargs):
+    print("I have got here")
     print(kwargs)
+    url = url + kwargs
     print("GET from {} ".format(url))
     try:
         # Call get method of requests library with URL and parameters
@@ -52,10 +54,26 @@ def get_dealers_from_cf(url, **kwargs):
     return results
 
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
-# def get_dealer_by_id_from_cf(url, dealerId):
+def get_dealer_by_id_from_cf(url, dealerId):
 # - Call get_request() with specified arguments
 # - Parse JSON results into a DealerView object list
 
+    results = []
+    # Call get_request with a URL parameter
+    json_result = get_request(url, dealerId)
+    if json_result:
+        # Get the row list in JSON as dealers
+        review_dealers_id = json_result["docs"]
+        # For each dealer object
+        for dealer_doc in review_dealers_id:
+            try : 
+                dealer_obj = DealerReview(dealership=dealer_doc["dealership"], name=dealer_doc["name"], review=dealer_doc["review"],
+                                    car_model=dealer_doc["car_model"], purchase=dealer_doc["purchase"], sentiment=dealer_doc["sentiment"])
+                results.append(dealer_obj)
+            except :
+                print ("I am an empty row")
+
+    return results
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
 # def analyze_review_sentiments(text):
