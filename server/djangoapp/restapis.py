@@ -27,33 +27,29 @@ def get_request(url, **kwargs):
 
 
 # Create a `post_request` to make HTTP POST requests
+def post_request(url, json_payload, **kwargs):
 # e.g., response = requests.post(url, params=kwargs, json=payload)
+    response = requests.post(url, params=kwargs, json=json_payload)
+    return response
+
+
 
 
 # Create a get_dealers_from_cf method to get dealers from a cloud function
 def get_dealers_from_cf(url, **kwargs):
 # - Call get_request() with specified arguments
-# - Parse JSON results into a CarDealer object list
+# - Parse JSON results into a CarDealer object list'''
+    try:
+        # Call get method of requests library with URL and parameters
+        response = requests.post(url, headers={'Content-Type': 'application/json'}, params=kwargs)
+    except:
+        # If any error occurs
+        print("Network exception occurred")
+    status_code = response.status_code
+    print("With status {} ".format(status_code))
+    json_data = json.loads(response.text)
 
-    results = []
-    # Call get_request with a URL parameter
-    json_result = get_request(url)
-    if json_result:
-        # Get the row list in JSON as dealers
-        dealers = json_result["entries"]
-        # For each dealer object
-        for dealer_doc in dealers:
-            # Get its content in `doc` object
-            #dealer_doc = dealer["dealers"]
-            # Create a CarDealer object with values in `doc` object
-            try : 
-                dealer_obj = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"], full_name=dealer_doc["full_name"],
-                                    id=dealer_doc["id"], state=dealer_doc["state"], st=dealer_doc["st"])
-                results.append(dealer_obj)
-            except :
-                print ("I am an empty row")
 
-    return results
 
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
 def get_dealer_by_id_from_cf(url, dealerId):

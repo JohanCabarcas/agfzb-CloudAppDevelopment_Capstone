@@ -113,7 +113,6 @@ def get_dealer_details(request, dealer_id):
     print("Enter get_dealer_details")
 
     if request.method == "GET":
-        #url = "https://32dc2b02.eu-gb.apigw.appdomain.cloud/api/reviews/{dealership}"
         url = "https://32dc2b02.eu-gb.apigw.appdomain.cloud/api/reviews/reviews?dealership="
         #append id to api url
         url = url +  str(dealer_id)
@@ -126,6 +125,41 @@ def get_dealer_details(request, dealer_id):
         print("exit get_dealer_details")
         return HttpResponse(review_text)
 # Create a `add_review` view to submit a review
- #def add_review(request, dealer_id):
+def add_review(request, dealer_id):
+    context = {}
+
+    #Check wheter user is Logged in 
+    if request.user.is_authenticated:
+        print("********Logged in*********")
+        if request.method == "POST":
+
+            review = dict()
+            review["name"] = "Anthony Hopkins"
+            review["dealership"] = dealer_id
+            review["review"] = "This is a great car dealer"
+            review["purchase"] = False
+            review["car_model"] = "Audi"
+
+            json_payload = dict()
+            json_payload["review"] = review
+
+            url = "https://32dc2b02.eu-gb.apigw.appdomain.cloud/api/reviews/new"
+            response = post_request(url, json_payload, dealerId=dealer_id)
+
+            status_resp = response.status_code
+            print("POST response status {}".format(status_resp))
+
+            #Get reponse content
+            post_response = response.text
+            print("POST response text {}".format(post_response))
+
+            return HttpResponse(post_response)
+    else:
+        # If not, return to login page again
+        #return render(request, 'djangoapp/user_login.html', context)
+        return redirect('djangoapp:index')        
+        print("Not logged in")   
+    # Handles POST request
+
 
 
