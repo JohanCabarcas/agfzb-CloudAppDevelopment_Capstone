@@ -10,7 +10,7 @@ from datetime import datetime
 import logging
 import json
 
-from .restapis import get_dealers_from_cf, get_dealer_by_id_from_cf
+from .restapis import get_dealers_from_cf, get_dealer_by_id_from_cf, post_request
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -131,34 +131,35 @@ def add_review(request, dealer_id):
     #Check wheter user is Logged in 
     if request.user.is_authenticated:
         print("********Logged in*********")
-        if request.method == "POST":
+        review = dict()
+        review["name"] = "James Headfield"
+        review["dealership"] = dealer_id
+        review["review"] = "I love their service desk"
+        review["purchase"] = True
+        review["car_model"] = "Volkswagen"
 
-            review = dict()
-            review["name"] = "Anthony Hopkins"
-            review["dealership"] = dealer_id
-            review["review"] = "This is a great car dealer"
-            review["purchase"] = False
-            review["car_model"] = "Audi"
+        json_payload = review
+        #json_payload["review"] = review
 
-            json_payload = dict()
-            json_payload["review"] = review
+        #print("JSON Payload {}".format(json_payload))
 
-            url = "https://32dc2b02.eu-gb.apigw.appdomain.cloud/api/reviews/new"
-            response = post_request(url, json_payload, dealerId=dealer_id)
+        url = "https://32dc2b02.eu-gb.apigw.appdomain.cloud/api/reviews/new"
+        response = post_request(url, json_payload, dealerId=dealer_id)
 
-            status_resp = response.status_code
-            print("POST response status {}".format(status_resp))
+        status_resp = response.status_code
+        print("POST response status {}".format(status_resp))
 
-            #Get reponse content
-            post_response = response.text
-            print("POST response text {}".format(post_response))
+        #Get reponse content
+        post_response = response.text
+        print("POST response text {}".format(post_response))
 
-            return HttpResponse(post_response)
+        return HttpResponse(post_response)
     else:
         # If not, return to login page again
         #return render(request, 'djangoapp/user_login.html', context)
+        print("Not logged in")
         #return redirect('djangoapp:index')        
-        print("Not logged in")   
+        return HttpResponse("User not authenticated") 
     # Handles POST request
 
 
