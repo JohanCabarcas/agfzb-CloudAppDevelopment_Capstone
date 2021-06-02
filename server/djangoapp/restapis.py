@@ -14,29 +14,16 @@ def get_request(url, **kwargs):
     #NLU api key
     #API_KEY = oW_diMKZmx3hlbpU8KVFYJN3fEpYWifB2YQu00sc0Yhr
 
-    if API_KEY:
-        try:
-            # Call get method of requests library with URL and parameters
-            response = requests.get(url, headers={'Content-Type': 'application/json'}, auth=HTTPBasicAuth('apikey',API_KEY),
-                                        params=kwargs)
-        except:
-            # If any error occurs
-            print("Network exception occurred")
-        status_code = response.status_code
-        print("With status {} ".format(status_code))
-        json_data = json.loads(response.text)
-        return json_data
-    else:
-        try:
-            # Call get method of requests library with URL and parameters
-            response = requests.get(url, headers={'Content-Type': 'application/json'}, params=kwargs)
-        except:
-            # If any error occurs
-            print("Network exception occurred")
-        status_code = response.status_code
-        print("With status {} ".format(status_code))
-        json_data = json.loads(response.text)
-        return json_data        
+    try:
+        # Call get method of requests library with URL and parameters
+        response = requests.get(url, headers={'Content-Type': 'application/json'}, params=kwargs)
+    except:
+        # If any error occurs
+        print("Network exception occurred")
+    status_code = response.status_code
+    print("With status {} ".format(status_code))
+    json_data = json.loads(response.text)
+    return json_data        
 
 
 # Create a `post_request` to make HTTP POST requests
@@ -92,15 +79,17 @@ def get_dealer_by_id_from_cf(url, dealerId):
  #               dealer_obj = DealerReview(dealership=dealer_doc["dealership"], name=dealer_doc["name"], review=dealer_doc["review"],
  #                                   car_model=dealer_doc["car_model"], purchase=dealer_doc["purchase"], sentiment=dealer_doc["sentiment"])
  #               results.append(dealer_obj)
-  #          except :
+    #          except :
   #              print ("I am an empty row")
             #Get review from json response to input to NLU
             review_analysis = dealer_doc["review"]
+            print("Review for NLU {}".format(review_analysis))
             #NLU analyzer
-            analyze_review_sentiments(review_analysis)
+            sentiment_res = analyze_review_sentiments(review_analysis)
+            print("Sentiment result review {}".format(sentiment_res))
 
             dealer_obj = DealerReview(dealership=dealer_doc["dealership"], name=dealer_doc["name"], review=dealer_doc["review"],
-                        car_model=dealer_doc["car_model"], purchase=dealer_doc["purchase"])
+                        car_model=dealer_doc["car_model"], purchase=dealer_doc["purchase"], sentiment=sentiment_res)
 
             results.append(dealer_obj)
 
@@ -111,33 +100,30 @@ def get_dealer_by_id_from_cf(url, dealerId):
 def analyze_review_sentiments(text):
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
-    API_KEY = oW_diMKZmx3hlbpU8KVFYJN3fEpYWifB2YQu00sc0Yhr
-    NLU_URL = "https://api.eu-gb.natural-language-understanding.watson.cloud.ibm.com/instances/ea9ec473-30f1-4cfe-8be9-ad4525d798f5"
+    API_KEY = "oW_diMKZmx3hlbpU8KVFYJN3fEpYWifB2YQu00sc0Yhr"
+    NLU_URL = "https://api.eu-gb.natural-language-understanding.watson.cloud.ibm.com/instances/ea9ec473-30f1-4cfe-8be9-ad4525d798f5/v1/analyze?version=2020-08-01"
 
     params = dict()
-    params["text"] = kwargs["text"]
-    params["version"] = kwargs["version"]
-    params["features"] = kwargs["features"]
-    params["return_analyzed_text"] = kwargs["return_analyzed_text"]
+    params["text"] = text
+    params["features"] = {"sentiment":{"document":True}}
+    params["language"] = "en"
 
-    #response = requests.get(NLU_URL, params=params, headers={'Content-Type': 'application/json'},
-    #                                auth=HTTPBasicAuth('apikey', api_key))
-    #get_request(url, **kwargs)
     try:
         # Call get method of requests library with URL and parameters
         response = requests.get(NLU_URL, headers={'Content-Type': 'application/json'}, auth=HTTPBasicAuth('apikey',API_KEY),
                                     params=params)
     except:
-        # If any error occurs
-        print("Network exception occurred")
+        print("Cannot get a response from NLU request")
     #Log response params        
     status_code = response.status_code
     print("With status {} ".format(status_code))
 
     json_data = json.loads(response.text)
-    print("NLU analysis {}".format(response))
 
-    return json_data
+    sentiment_res = json_data["sentiment"]["document"]["label"]
+    #print("the result {} ".format(sentiment_res))
+
+    return sentiment_res
 
     
 

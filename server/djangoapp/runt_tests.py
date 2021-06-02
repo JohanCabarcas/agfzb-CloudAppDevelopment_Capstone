@@ -14,6 +14,7 @@ def analyze_review_sentiments(text):
     params["text"] = text
     #params["version"] = '2020-08-01'
     params["features"] = {"sentiment":{"document":True}}
+    params["language"] = "en"
     #params["return_analyzed_text"] = kwargs["return_analyzed_text"]
 
     print("the params {}".format(params))
@@ -35,10 +36,11 @@ def analyze_review_sentiments(text):
     print("Just the raw response {}".format(response))
 
     json_data = json.loads(response.text)
+    print("the response {} ".format(json_data))
     print("NLU analysis {}".format(response))
     json_data = json_data["sentiment"]["document"]["label"]
     print("the result {} ".format(json_data))
     return json_data
 
-text = "Sadly tommorrow is a rainy day"
+text = "Great service"
 json_resp = analyze_review_sentiments(text)
