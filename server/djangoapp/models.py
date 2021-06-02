@@ -91,9 +91,9 @@ class DealerReview :
         self.review = review
         # Dealer id
         self.car_model = car_model
-        # Dealer state
+        # Purchase
         self.purchase = purchase
-        #Dealer state short
+        #Sentiment result NLU
         self.sentiment = sentiment
 
     def __str__(self):
