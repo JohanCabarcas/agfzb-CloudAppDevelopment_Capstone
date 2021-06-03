@@ -54,15 +54,11 @@
             </tr>
         </thead>
         <tbody>
-            <!--<td>{{0.full_name}}</td>-->
-            {% for dealer in all_dealership.items %}
-                {% for each in dealer.items %}
-                    <tr>
-                        <!--<td>{{dealer.id}}</td>-->
-                        <td>{{dealer.each.full_name}}</td>
-            
-                    </tr>
-                {% endfor %}
+            <!--<td>{{all_dealership.0}}</td>-->
+            {% for key, val in all_dealership.items %}
+                <tr>
+                    <td>{{val.address}}</td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>  

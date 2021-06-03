@@ -100,7 +100,7 @@ def get_dealerships(request):
     context = dict()
     row_cell = dict()
     dealership_dic = dict()
-    all_dealerhip = dict()
+    all_dealership = dict()
 
 
     if request.method == "GET":
@@ -120,11 +120,11 @@ def get_dealerships(request):
         row_cell["st"] = dealer.st
         row_cell["state"] = dealer.state
 
-        all_dealerhip[i] = row_cell
+        all_dealership[str(i)] = row_cell
         row_cell = dict()
         i = i + 1
 
-    dealership_dic["all_dealership"] = all_dealerhip
+    dealership_dic["all_dealership"] = all_dealership
 #    print("****all Dealerships dict {}******".format(dealership_dic))
 
     context = dealership_dic
