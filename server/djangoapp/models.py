@@ -20,8 +20,8 @@ class CarMake(models.Model):
     description = models.CharField(max_length=1000)
     
     def __str__(self):
-        return "Manufacturer: " + self.name_manufaturer + "," + \
-               "Description: " + self.description
+        return self.name_manufaturer# + "," + \
+               #"Description: " + self.description
 
 
 # <HINT> Create a Car Model model `

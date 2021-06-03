@@ -9,9 +9,9 @@ from django.contrib import messages
 from datetime import datetime
 import logging
 import json
-
-from .restapis import get_dealers_from_cf, get_dealer_by_id_from_cf, post_request
-
+from .models import CarDealer, DealerReview, CarModel
+from django.views import generic
+from .restapis import get_dealers_from_cf, get_dealer_by_id_from_cf, post_request, car_model_getter
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
@@ -170,9 +170,15 @@ def get_dealer_details(request, dealer_id):
         return render(request, 'djangoapp/dealer_details.html', context)
 # Create a `add_review` view to submit a review
 def add_review(request, dealer_id):
+    print("***Start add_review****")
     context = dict()
     context["dealer_id"] = dealer_id
-    print("***Start add_review****")
+
+
+    #Get all cars in DB
+    cars = CarModel.objects.all()
+    context["cars"] = cars
+ 
     #Check wheter user is Logged in 
     if request.user.is_authenticated:
         print("********Logged in*********")
@@ -208,6 +214,20 @@ def add_review(request, dealer_id):
         #return redirect('djangoapp:index')        
         return HttpResponse("User not authenticated") 
     # Handles POST request
+
+#class CourseDetailView(generic.DetailView):
+ #   model = CarModel
+ #    courses = CarModel.objects.all
+  #  template_name = 'onlinecourse/test_tmp.html'
+def test_view (request):
+    context = dict()
+
+    #Get all cars in DB
+    cars = CarModel.objects.all()
+    context["cars"] = cars
+    print("The cars in DB {}".format(cars))
+
+    return render(request, 'djangoapp/test_tmp.html', context)
 
 
 

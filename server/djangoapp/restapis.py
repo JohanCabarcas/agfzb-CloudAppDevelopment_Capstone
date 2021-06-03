@@ -1,6 +1,6 @@
 import requests
 import json
-from .models import CarDealer, DealerReview
+from .models import CarDealer, DealerReview, CarModel
 from requests.auth import HTTPBasicAuth
 
 # Create a `get_request` to make HTTP GET requests
@@ -130,7 +130,10 @@ def analyze_review_sentiments(text):
 
     return sentiment_res
 
-    
+def car_model_getter():
+    car = CarModel()
+    print(car)
+    #return car_model 
 
 
 

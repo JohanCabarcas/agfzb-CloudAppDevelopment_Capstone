@@ -1,26 +1,32 @@
-from .models import CarDealer, DealerReview
-from .restapis import get_dealers_from_cf, get_dealer_by_id_from_cf, post_request
-import requests
+from models import CarDealer, DealerReview
 
-def get_dealerships(request):
-    context = {}
+SEDAN = 'Sedan'
+SUV = 'SUV'
+WAGON = 'Wagon'
+example = (SEDAN, 'Sedan'),
+MODEL_CHOICES = [
+    (SEDAN, 'Sedan'),
+    (SUV, 'SUV'),
+    (WAGON, 'Wagon'),
+]
 
-    url = "https://32dc2b02.eu-gb.apigw.appdomain.cloud/api/dealership"
-    # Get dealers from the URL
-    dealerships = get_dealers_from_cf(url)
-        # Map cardealer obj list to context dict        
-    for dealership in dealerList:
-        for row in dealership:
-            context["address"] = row.address
-            context["city"] = row.city
-            context["full_name"] = row.full_name
-            context["id"] =row.id
-            context["st"] = row.st
-            context["state"] = row.state
-    print("OCntext dict {}".format(context))
-    # Concat all dealer's short name
-    dealer_names = ' '.join([dealer.full_name for dealer in dealerships])
-    # Return a list of dealer short name
-    
-    return HttpResponse(dealer_names)
+print("type {}".format(type(example)))
 
+def car_model_getter():
+    car_model = CarModel()
+    return car_model
+
+car = car_model_getter
+
+print(car)
+
+    <!--Add review form here -->
+        <!--<form class="form-group" action="{% url 'djangoapp:add_review' dealer_id.dealer_id %}"  method="post">
+            <textarea class="form-control" id="content" name="content" rows="2" required></textarea>
+            <input class="form-check-input" type="checkbox" name="purchasecheck" id="purchasecheck"> 
+            <select name="car" id="car" class="form-select" required>
+                {% for car in cars %}
+                    <option selected value={{car.id}}>{{car.name}}-{{car.make.name}}-{{ car.year|date:"Y" }}</option>
+                {% endfor %}
+            </select>
+        </form>-->
