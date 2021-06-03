@@ -99,7 +99,10 @@ def registration_request(request):
 def get_dealerships(request):
     context = dict()
     row_cell = dict()
-    row = dict()
+    dealership_dic = dict()
+    all_dealerhip = dict()
+
+
     if request.method == "GET":
         url = "https://32dc2b02.eu-gb.apigw.appdomain.cloud/api/dealership"
         # Get dealers from the URL
@@ -107,8 +110,6 @@ def get_dealerships(request):
         #debug: print("delaer obj is type {}".format(dealerList))
 
     ## Map cardealer obj list to context dict
-    # 
-    # 
 
     i = 0    
     for dealer in dealerships:
@@ -119,19 +120,21 @@ def get_dealerships(request):
         row_cell["st"] = dealer.st
         row_cell["state"] = dealer.state
 
-        context[i] = row_cell
+        all_dealerhip[i] = row_cell
         row_cell = dict()
         i = i + 1
 
-    print("****OCntext dict {}******".format(context))
+    dealership_dic["all_dealership"] = all_dealerhip
+#    print("****all Dealerships dict {}******".format(dealership_dic))
 
-
+    context = dealership_dic
+    #print("****all conext dict {}******".format(context))
     # Concat all dealer's short name
     #dealer_names = ' '.join([dealer.full_name for dealer in dealerships])
     # Return a list of dealer short name
 
     #return HttpResponse(context[0]["address"])
-    render(request, 'djangoapp/index.html', context)
+    return render(request, 'djangoapp/index.html', context)
 
 
 # Create a `get_dealer_details` view to render the reviews of a dealer

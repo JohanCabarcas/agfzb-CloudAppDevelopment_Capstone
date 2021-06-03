@@ -46,7 +46,26 @@
         </div>
     </nav>
     <!--Add a dealer table here -->
-
+   <table class="table" id="table">
+        <thead>
+            <tr>
+                <th data-field="id">ID</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <!--<td>{{0.full_name}}</td>-->
+            {% for dealer in all_dealership.items %}
+                {% for each in dealer.items %}
+                    <tr>
+                        <!--<td>{{dealer.id}}</td>-->
+                        <td>{{dealer.each.full_name}}</td>
+            
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>  
     </body>
 
 </html>

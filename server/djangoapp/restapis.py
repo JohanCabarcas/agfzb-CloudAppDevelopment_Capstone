@@ -34,7 +34,6 @@ def post_request(url, json_payload, **kwargs):
 
 
 
-
 # Create a get_dealers_from_cf method to get dealers from a cloud function
 def get_dealers_from_cf(url, **kwargs):
 # - Call get_request() with specified arguments
@@ -54,7 +53,7 @@ def get_dealers_from_cf(url, **kwargs):
     #print("The response get dealership {}".format(json_data))
     if json_result:
         # Get the row list in JSON as dealers
-        print("json result {}".format(json_result))
+        #DEBUG print("json result {}".format(json_result))
         dealers = json_result["entries"]
         # For each dealer object
         for dealer_doc in dealers:
