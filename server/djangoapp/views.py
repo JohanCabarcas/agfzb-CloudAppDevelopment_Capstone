@@ -174,37 +174,41 @@ def add_review(request, dealer_id):
     context = dict()
     context["dealer_id"] = dealer_id
 
-
+    if request.method == "GET":
     #Get all cars in DB
-    cars = CarModel.objects.all()
-    context["cars"] = cars
- 
-    #Check wheter user is Logged in 
-    if request.user.is_authenticated:
-        print("********Logged in*********")
-        #review = dict()
-        #review["name"] = "James Headfield"
-        #review["dealership"] = dealer_id
-        #review["review"] = "I love their service desk"
-        #review["purchase"] = True
-        #review["car_model"] = "Volkswagen"
+        cars = CarModel.objects.all()
+        context["cars"] = cars
+        print("The cars in DB {}".format(cars))
 
-        json_payload = review
-        #json_payload["review"] = review
+        #return figure out what to return
 
-        #print("JSON Payload {}".format(json_payload))
+    elif request.method == "POST":
+        #Check wheter user is Logged in 
+        if request.user.is_authenticated:
+            print("********Logged in*********")
+            #review = dict()
+            #review["name"] = "James Headfield"
+            #review["dealership"] = dealer_id
+            #review["review"] = "I love their service desk"
+            #review["purchase"] = True
+            #review["car_model"] = "Volkswagen"
 
-        url = "https://32dc2b02.eu-gb.apigw.appdomain.cloud/api/reviews/new"
-        response = post_request(url, json_payload, dealerId=dealer_id)
+            json_payload = review
+            #json_payload["review"] = review
 
-        status_resp = response.status_code
-        print("POST response status {}".format(status_resp))
+            #print("JSON Payload {}".format(json_payload))
 
-        #Get reponse content
-        post_response = response.text
-        print("POST response text {}".format(post_response))
+            url = "https://32dc2b02.eu-gb.apigw.appdomain.cloud/api/reviews/new"
+            response = post_request(url, json_payload, dealerId=dealer_id)
 
-        print("********End add_review*********")
+            status_resp = response.status_code
+            print("POST response status {}".format(status_resp))
+
+            #Get reponse content
+            post_response = response.text
+            print("POST response text {}".format(post_response))
+
+            print("********End add_review*********")
 
         return HttpResponse(post_response)
     else:
@@ -214,11 +218,6 @@ def add_review(request, dealer_id):
         #return redirect('djangoapp:index')        
         return HttpResponse("User not authenticated") 
     # Handles POST request
-
-#class CourseDetailView(generic.DetailView):
- #   model = CarModel
- #    courses = CarModel.objects.all
-  #  template_name = 'onlinecourse/test_tmp.html'
 def test_view (request):
     context = dict()
 

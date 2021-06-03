@@ -12,13 +12,17 @@
 </head>
     <body>
         <form class="form-group" action="#"  method="post">
-            <textarea class="form-control" id="content" name="content" rows="2" required></textarea>
-            <input class="form-check-input" type="checkbox" name="purchasecheck" id="purchasecheck"> 
+            <textarea class="form-control" id="content" name="content" rows="2" required>Review description</textarea>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="purchasecheck">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
             <select name="car" id="car" class="form-select" required>
                 {% for car in cars %}
                    <option selected value={{car.id}}>{{car.car_model_name}}-{{car.car_make}}-{{ car.year|date:"Y" }}</option>
                 {% endfor %}
             </select>
+            <button class="btn btn-primary" type="submit">Post review</button>
         </form>
 
 
