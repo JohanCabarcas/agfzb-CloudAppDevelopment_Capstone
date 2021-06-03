@@ -85,7 +85,7 @@ class DealerReview :
     def __init__(self, dealership, name, review, car_model, purchase, sentiment="default"):
         # Dealer address
         self.dealership = dealership
-        # Dealer city
+        # Custname
         self.name = name
         # Dealer Full Name
         self.review = review

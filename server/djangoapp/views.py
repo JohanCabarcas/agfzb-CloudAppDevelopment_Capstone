@@ -131,11 +131,11 @@ def get_dealerships(request):
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
 def get_dealer_details(request, dealer_id):
-    print("Enter get_dealer_details")
-    context = dict
-    row_cell = dict
-    reviews_dic = dict
-    all_reviews = dict
+    print("********Start get_dealer_details*********")
+    context = dict()
+    row_cell = dict()
+    reviews_dic = dict()
+    all_reviews = dict()
 
     if request.method == "GET":
         url = "https://32dc2b02.eu-gb.apigw.appdomain.cloud/api/reviews/reviews?dealership="
@@ -145,6 +145,7 @@ def get_dealer_details(request, dealer_id):
         # Get reviews by dealers id from the URL
         reviews = get_dealer_by_id_from_cf(url, dealer_id)
 
+        i = 0
         for rev in reviews:
             row_cell["dealership"] = rev.dealership
             row_cell["name"] = rev.name
@@ -158,13 +159,14 @@ def get_dealer_details(request, dealer_id):
             i = i + 1
 
         reviews_dic["all_reviews"] = all_reviews
-        #print("****all reviews_dic {}******".format(reviews_dic))
+        #print("-------all reviews_dic {}--------------".format(reviews_dic))
 
         context = reviews_dic            
         # Concat all dealer's short name
         #review_text = ' '.join([rev.sentiment for rev in reviews])
         # Return a list of dealer short name
        # print("exit get_dealer_details")
+        print("********End get_dealer_details*********")
         return render(request, 'djangoapp/dealer_details.html', context)
 # Create a `add_review` view to submit a review
 def add_review(request, dealer_id):
@@ -194,6 +196,8 @@ def add_review(request, dealer_id):
         #Get reponse content
         post_response = response.text
         print("POST response text {}".format(post_response))
+
+        print("********End add_review*********")
 
         return HttpResponse(post_response)
     else:
