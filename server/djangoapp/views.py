@@ -170,17 +170,18 @@ def get_dealer_details(request, dealer_id):
         return render(request, 'djangoapp/dealer_details.html', context)
 # Create a `add_review` view to submit a review
 def add_review(request, dealer_id):
-    context = {}
+    context = dict()
+    context["dealer_id"] = dealer_id
     print("***Start add_review****")
     #Check wheter user is Logged in 
     if request.user.is_authenticated:
         print("********Logged in*********")
-        review = dict()
-        review["name"] = "James Headfield"
-        review["dealership"] = dealer_id
-        review["review"] = "I love their service desk"
-        review["purchase"] = True
-        review["car_model"] = "Volkswagen"
+        #review = dict()
+        #review["name"] = "James Headfield"
+        #review["dealership"] = dealer_id
+        #review["review"] = "I love their service desk"
+        #review["purchase"] = True
+        #review["car_model"] = "Volkswagen"
 
         json_payload = review
         #json_payload["review"] = review
