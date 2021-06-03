@@ -87,13 +87,6 @@ def get_dealer_by_id_from_cf(url, dealerId):
         #print("JSON after appploy docs string {}".format(review_dealers_id))
         # For each dealer object
         for dealer_doc in review_dealers_id:
- #           try : 
- #               dealer_obj = DealerReview(dealership=dealer_doc["dealership"], name=dealer_doc["name"], review=dealer_doc["review"],
- #                                   car_model=dealer_doc["car_model"], purchase=dealer_doc["purchase"], sentiment=dealer_doc["sentiment"])
- #               results.append(dealer_obj)
-    #          except :
-  #              print ("I am an empty row")
-            #Get review from json response to input to NLU
             review_analysis = dealer_doc["review"]
             print("Review for NLU {}".format(review_analysis))
             #NLU analyzer

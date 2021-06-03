@@ -16,52 +16,68 @@
 
     <body>
     <!--Add a nav bar here -->
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Best Cars dealership</a>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Best Cars dealership</a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'djangoapp:about' %}">About us</a></li>
+                        <li><a href="{% url 'djangoapp:contact' %}">Contact us</a></li>
+                    {% if user.is_authenticated %}
+                    <li>
+                        <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                        <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <form action="{% url 'djangoapp:login' %}"  method="post">
+                        {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" placeholder="Enter User Name: " name="username" required>
+                                <input type="password" placeholder="Enter Password: " name="psw" required>
+                                <button class="button" type="submit">Login</button>
+                                <a class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+                            </div>
+                        </form>
+                    </li>
+                    {% endif %}
+                </ul>
             </div>
-            <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{% url 'djangoapp:about' %}">About us</a></li>
-                    <li><a href="{% url 'djangoapp:contact' %}">Contact us</a></li>
-                {% if user.is_authenticated %}
-                <li>
-                    <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
-                    <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
-                </li>
-                {% else %}
-                <li>
-                    <form action="{% url 'djangoapp:login' %}"  method="post">
-                    {% csrf_token %}
-                        <div class="input-group">
-                            <input type="text" placeholder="Enter User Name: " name="username" required>
-                            <input type="password" placeholder="Enter Password: " name="psw" required>
-                            <button class="button" type="submit">Login</button>
-                            <a class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
-                        </div>
-                    </form>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
-    <!--Add a dealer table here -->
-   <table class="table" id="table">
-        <thead>
-            <tr>
-                <th data-field="id">ID</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            <!--<td>{{all_dealership.0}}</td>-->
-            {% for key, val in all_dealership.items %}
+        </nav>
+
+        <!--Add a dealer table here -->
+        <table class="table" id="table" data-filter-control="true">
+            <thead>
                 <tr>
-                    <td>{{val.address}}</td>
+                    <th data-field="id">ID</th>
+                    <th data-field="full_name">Dealer name</th>
+                    <th data-field="city">City</th>
+                    <th data-field="address">Address</th>                
+                    <th data-field="state" data-filter-control="select">State</th>
+                    <th data-field="st">Short state</th>
+                    
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>  
+            </thead>
+            <tbody>
+                <!--<td>{{all_dealership.0}}</td>-->
+                {% for key, val in all_dealership.items %}
+                    <tr>
+                        <td>{{val.id}}</td>
+                        <td><a href="{% url 'djangoapp:dealer_details' val.id %}">{{val.full_name}}</td>
+                        <td>{{val.city}}</td>
+                        <td>{{val.address}}</td>                    
+                        <td>{{val.state}}</td>
+                        <td>{{val.st}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <script>
+            $(function() {
+                $('#table').bootstrapTable()
+            })
+        </script>  
     </body>
 
 </html>

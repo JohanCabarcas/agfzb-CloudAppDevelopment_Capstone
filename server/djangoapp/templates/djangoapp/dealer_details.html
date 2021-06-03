@@ -10,7 +10,35 @@
     <body>
 
     <!--Add a nav bar here -->
-
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Best Cars dealership</a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'djangoapp:about' %}">About us</a></li>
+                        <li><a href="{% url 'djangoapp:contact' %}">Contact us</a></li>
+                    {% if user.is_authenticated %}
+                    <li>
+                        <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                        <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <form action="{% url 'djangoapp:login' %}"  method="post">
+                        {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" placeholder="Enter User Name: " name="username" required>
+                                <input type="password" placeholder="Enter Password: " name="psw" required>
+                                <button class="button" type="submit">Login</button>
+                                <a class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+                            </div>
+                        </form>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>        
     <!-- Add reviews as cards -->
 
     </body>
