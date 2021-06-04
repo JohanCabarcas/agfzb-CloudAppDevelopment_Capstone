@@ -145,30 +145,32 @@ def get_dealer_details(request, dealer_id):
         print("Query review with URL {}".format(url))
         # Get reviews by dealers id from the URL
         reviews = get_dealer_by_id_from_cf(url, dealer_id)
+        if reviews:
+            i = 0
+            for rev in reviews:
+                row_cell["dealership"] = rev.dealership
+                row_cell["name"] = rev.name
+                row_cell["review"] = rev.review
+                row_cell["car_model"] =rev.car_model
+                row_cell["purchase"] = rev.purchase
+                row_cell["sentiment"] = rev.sentiment
 
-        i = 0
-        for rev in reviews:
-            row_cell["dealership"] = rev.dealership
-            row_cell["name"] = rev.name
-            row_cell["review"] = rev.review
-            row_cell["car_model"] =rev.car_model
-            row_cell["purchase"] = rev.purchase
-            row_cell["sentiment"] = rev.sentiment
+                all_reviews[str(i)] = row_cell
+                row_cell = dict()
+                i = i + 1
 
-            all_reviews[str(i)] = row_cell
-            row_cell = dict()
-            i = i + 1
+            reviews_dic["all_reviews"] = all_reviews
+            #print("-------all reviews_dic {}--------------".format(reviews_dic))
+            context = reviews_dic            
+            print("********End get_dealer_details*********")
+            
+            return render(request, 'djangoapp/dealer_details.html', context)
+        else :
+            print("No reviews for current dealership")
+            context["dealership"] = dealer_id
+            return render(request, 'djangoapp/dealer_details.html', context)
 
-        reviews_dic["all_reviews"] = all_reviews
-        #print("-------all reviews_dic {}--------------".format(reviews_dic))
 
-        context = reviews_dic            
-        # Concat all dealer's short name
-        #review_text = ' '.join([rev.sentiment for rev in reviews])
-        # Return a list of dealer short name
-       # print("exit get_dealer_details")
-        print("********End get_dealer_details*********")
-        return render(request, 'djangoapp/dealer_details.html', context)
 # Create a `add_review` view to submit a review
 def add_review(request, dealer_id):
     print("***Start add_review****")

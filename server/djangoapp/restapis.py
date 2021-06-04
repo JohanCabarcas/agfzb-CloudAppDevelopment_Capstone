@@ -97,9 +97,12 @@ def get_dealer_by_id_from_cf(url, dealerId):
                         car_model=dealer_doc["car_model"], purchase=dealer_doc["purchase"], sentiment=sentiment_res)
 
             results.append(dealer_obj)
-
-    print("********End get_dealer_by_id_from_cf***********")
-    return results
+        print("********End get_dealer_by_id_from_cf***********")
+        return results
+    else :
+        return None
+    
+    
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
 def analyze_review_sentiments(text):
