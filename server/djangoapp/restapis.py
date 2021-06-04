@@ -77,7 +77,7 @@ def get_dealer_by_id_from_cf(url, dealerId):
     json_result = get_request(url)
     
     ###DEBUG
-    print("JSON Results req {}".format(json_result))
+    #print("JSON Results req {}".format(json_result))
 
     if json_result:
         # Get the row list in JSON as dealers

@@ -26,6 +26,7 @@ urlpatterns = [
     path('dealer/<int:dealer_id>/', views.get_dealer_details, name='dealer_details'),
     #path to POST a review 
     path('review/<int:dealer_id>/new/', views.add_review, name='add_review'),
+    #path('^review/(?P<dealer_id>[0-9]+)$/new/', views.add_review, name='add_review'),
 
     ##DEBUG test template
     path('test/', views.test_view, name='test_view'),

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
@@ -181,17 +182,22 @@ def add_review(request, dealer_id):
         print("The cars in DB {}".format(cars))
 
         #return figure out what to return
+        return render(request, 'djangoapp/add_review.html', context)
 
     elif request.method == "POST":
         #Check wheter user is Logged in 
         if request.user.is_authenticated:
             print("********Logged in*********")
-            #review = dict()
-            #review["name"] = "James Headfield"
-            #review["dealership"] = dealer_id
-            #review["review"] = "I love their service desk"
-            #review["purchase"] = True
-            #review["car_model"] = "Volkswagen"
+            review = dict()
+
+            review["name"] = request.user.username
+            review["dealership"] = dealer_id
+            review["review"] = request.POST["content"]
+            review["purchase"] = request.POST.get('purchasecheck', False)
+            review["car_model"] = (request.POST.get("car_sel", None)).split('-')[0]
+    
+
+            print("POST review {}".format(review))
 
             json_payload = review
             #json_payload["review"] = review
@@ -206,11 +212,12 @@ def add_review(request, dealer_id):
 
             #Get reponse content
             post_response = response.text
-            print("POST response text {}".format(post_response))
+            #print("POST response text {}".format(post_response))
 
             print("********End add_review*********")
 
-        return HttpResponse(post_response)
+            return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
+
     else:
         # If not, return to login page again
         #return render(request, 'djangoapp/user_login.html', context)
