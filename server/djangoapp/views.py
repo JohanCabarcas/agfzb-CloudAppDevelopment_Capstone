@@ -179,7 +179,7 @@ def add_review(request, dealer_id):
     #Get all cars in DB
         cars = CarModel.objects.all()
         context["cars"] = cars
-        print("The cars in DB {}".format(cars))
+        #print("The cars in DB {}".format(cars))
 
         #return figure out what to return
         return render(request, 'djangoapp/add_review.html', context)
@@ -194,10 +194,10 @@ def add_review(request, dealer_id):
             review["dealership"] = dealer_id
             review["review"] = request.POST["content"]
             review["purchase"] = request.POST.get('purchasecheck', False)
-            review["car_model"] = (request.POST.get("car_sel", None)).split('-')[0]
+            review["car_model"] = request.POST.get("car_sel", None)
     
 
-            print("POST review {}".format(review))
+            #print("POST review {}".format(review))
 
             json_payload = review
             #json_payload["review"] = review
@@ -227,13 +227,17 @@ def add_review(request, dealer_id):
     # Handles POST request
 def test_view (request):
     context = dict()
-
+    if request.method == "POST":
     #Get all cars in DB
-    cars = CarModel.objects.all()
-    context["cars"] = cars
-    print("The cars in DB {}".format(cars))
 
-    return render(request, 'djangoapp/test_tmp.html', context)
+        review = dict()
+
+        review["name"] = request.user.username
+        review["dealership"] = dealer_id
+        review["review"] = request.POST["content"]
+        review["purchase"] = request.POST.get('purchasecheck', False)
+        #review["car_model"] = (request.POST.get("car_sel", None)).split('-')[0]
+        review["car_model"] = (request.POST.get("car_sel", None)).split('-')[0]
 
 
 

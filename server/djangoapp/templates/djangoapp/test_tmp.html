@@ -17,9 +17,9 @@
                 <input type="checkbox" class="form-check-input" id="purchasecheck">
                 <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div>
-            <select name="car" id="car" class="form-select" required>
+            <select name="car_sel" id="car" class="form-select" required>
                 {% for car in cars %}
-                   <option selected value={{car.id}}>{{car.car_model_name}}-{{car.car_make}}-{{ car.year|date:"Y" }}</option>
+                   <option selected value={{car.car_model_name}}>{{car.car_model_name}}-{{car.car_make}}-{{ car.year|date:"Y" }}</option>
                 {% endfor %}
             </select>
             <button class="btn btn-primary" type="submit">Post review</button>
