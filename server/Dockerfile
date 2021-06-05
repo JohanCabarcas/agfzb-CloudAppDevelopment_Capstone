@@ -21,24 +21,7 @@ FROM python:3.8.2
 
     EXPOSE 8000
 
-    RUN chmod +x /home/theia/entrypoint.sh
-    ENTRYPOINT ["/home/theia/entrypoint.sh"]
+    RUN chmod +x entrypoint.sh
+    ENTRYPOINT ["entrypoint.sh"]
 
     CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "djangobackend.wsgi"]
-    #!/bin/sh
-
-    if [ "$DATABASE" = "postgres" ]; then
-        echo "Waiting for postgres..."
-
-        while ! nc -z $DATABASE_HOST $DATABASE_PORT; do
-        sleep 0.1
-        done
-
-        echo "PostgreSQL started"
-    fi
-
-    # Make migrations and migrate the database.
-    echo "Making migrations and migrating the database. "
-    python manage.py makemigrations main --noinput 
-    python manage.py migrate --noinput 
-    exec "$@"
